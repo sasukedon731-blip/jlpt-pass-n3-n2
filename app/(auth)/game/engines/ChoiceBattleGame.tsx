@@ -27,7 +27,7 @@ function computeTimeLimit(mode: "normal" | "attack", level: number) {
 }
 
 export default function ChoiceBattleGame({ quizType, mode }: Props) {
-  const quiz = quizzes[quizType]
+  const quiz = quizzes[quizType as keyof typeof quizzes]
   const questions = useMemo(() => quiz?.questions ?? [], [quizType])
 
   const [phase, setPhase] = useState<Phase>("ready")

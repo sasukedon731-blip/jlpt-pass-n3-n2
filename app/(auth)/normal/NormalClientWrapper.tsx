@@ -26,7 +26,7 @@ export default function NormalClientWrapper() {
   const [allowed, setAllowed] = useState<QuizType[] | null>(null)
   const [stateLoaded, setStateLoaded] = useState(false)
   const [accessBlocked, setAccessBlocked] = useState(false)
-  const [billingStatus, setBillingStatus] = useState<"pending" | "active" | "past_due" | "canceled">("active")
+  const [billingStatus, setBillingStatus] = useState<string>("active")
 
   // ① user の plan state を読み込み（＋自動修復）
   useEffect(() => {

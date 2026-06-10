@@ -21,7 +21,7 @@ export default function ExamClientWrapper() {
   const [stateLoaded, setStateLoaded] = useState(false)
   const [allowed, setAllowed] = useState<QuizType[] | null>(null)
   const [accessBlocked, setAccessBlocked] = useState(false)
-  const [billingStatus, setBillingStatus] = useState<"pending" | "active" | "past_due" | "canceled">("active")
+  const [billingStatus, setBillingStatus] = useState<string>("active")
 
   // ① plan state 読み込み（＋自動修復）
   useEffect(() => {
