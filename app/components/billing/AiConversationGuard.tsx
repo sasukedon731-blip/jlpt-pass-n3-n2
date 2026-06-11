@@ -30,8 +30,8 @@ export default function AiConversationGuard({
   if (billingState === "pending") {
     return (
       <BlockedCard
-        title="AI会話はお支払い確認後に利用できます"
-        description="コンビニ支払い確認後にAI会話オプションが有効になります。反映まで少し時間がかかる場合があります。"
+        title="AI機能はお支払い確認後に利用できます"
+        description="コンビニ支払い確認後にAIオプションが有効になります。反映まで少し時間がかかる場合があります。"
         plansHref={plansHref}
         buttonLabel="プランを見る"
       />
@@ -42,7 +42,7 @@ export default function AiConversationGuard({
     return (
       <BlockedCard
         title="お支払いに失敗しました"
-        description="AI会話オプションを利用するには、もう一度お手続きしてください。"
+        description="AIオプションを利用するには、もう一度お手続きしてください。"
         plansHref={plansHref}
         buttonLabel="もう一度購入する"
       />
@@ -52,7 +52,7 @@ export default function AiConversationGuard({
   if (billingState === "expired" || billingState === "canceled") {
     return (
       <BlockedCard
-        title="AI会話オプションの有効期限が切れています"
+        title="AIオプションの有効期限が切れています"
         description="再購入すると、すぐにAI会話を再開できます。"
         plansHref={plansHref}
         buttonLabel="プランを再購入する"
@@ -62,8 +62,8 @@ export default function AiConversationGuard({
 
   return (
     <BlockedCard
-      title="AI会話は有料オプションです"
-      description="AI会話はプラン購入時のオプション追加で利用できます。"
+      title="AI会話・AIスピークは有料オプションです"
+      description="AI会話・AIスピークはプラン購入時のオプション追加で利用できます。"
       plansHref={plansHref}
       buttonLabel="プランを見る"
       footerNote={aiDaysLeft > 0 ? `残り ${aiDaysLeft} 日` : undefined}

@@ -62,10 +62,9 @@ const QUIZ_TYPES = quizCatalog
 ========================= */
 
 function label(t?: string) {
-  if (t === "japanese-n4") return "N4"
-  if (t === "genba-listening") return "現場リスニング"
-  if (t === "gaikoku-license") return "外国免許"
-  return "-"
+  if (t === "japanese-n3") return "JLPT N3"
+  if (t === "japanese-n2") return "JLPT N2"
+  return t || "-"
 }
 
 function formatDateSeconds(seconds?: number) {

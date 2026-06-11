@@ -195,11 +195,11 @@ type DetailState = {
 type IndustryId = "construction" | "manufacturing" | "care" | "driver" | "undecided"
 
 const INDUSTRY_LABEL: Record<IndustryId, string> = {
-  construction: "建設",
-  manufacturing: "製造",
-  care: "介護",
-  driver: "運転・免許",
-  undecided: "未定（海外から）",
+  construction: "JLPT N3",
+  manufacturing: "JLPT N2",
+  care: "日本語会話",
+  driver: "基礎復習",
+  undecided: "未選択",
 }
 
 function isIndustryId(v: any): v is IndustryId {

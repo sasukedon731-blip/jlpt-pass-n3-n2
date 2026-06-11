@@ -23,7 +23,7 @@ import type { PlanId } from "@/app/lib/plan"
 
 function isQuizType(v: any): v is QuizType {
   if (typeof v !== "string") return false
-  return v in quizzes
+  return v === "japanese-n4" || v === "japanese-n3" || v === "japanese-n2"
 }
 
 function isGameKind(v: any): v is GameKind {

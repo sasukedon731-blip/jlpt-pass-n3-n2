@@ -17,7 +17,7 @@ export type QuizType =
   | "construction-terms-reverse"
   | "construction-terms-image"
 
-  // ★ 今回追加した建設用語PPT抽出教材
+  // 旧総合アプリ互換用
   | "construction-tools"
   | "hvac-terms"
   | "plant-terms"
@@ -26,7 +26,7 @@ export type QuizType =
   | "electric-terms"
   | "civil-terms"
 
-  // ★ 製造（旧 manufacturing-terms は削除）
+  // 旧総合アプリ互換用
   | "manufacturing-meaning"
   | "manufacturing-word"
   | "manufacturing-listening"

@@ -8,6 +8,11 @@ function addDays(days: number) {
   return Timestamp.fromDate(new Date(Date.now() + days * 24 * 60 * 60 * 1000))
 }
 
+function normalizeMonths(value: unknown) {
+  const n = Number(value)
+  return [1, 3, 6].includes(n) ? n : 1
+}
+
 export async function POST(req: NextRequest) {
   try {
     const event = await req.json()
@@ -17,8 +22,18 @@ export async function POST(req: NextRequest) {
 
     if (!uid) return NextResponse.json({ ok: true, skipped: "no uid" })
 
-    const paid = type === "payment.captured" || type === "payment.succeeded" || type === "session.completed" || object?.status === "captured" || object?.status === "completed"
+    const paid =
+      type === "payment.captured" ||
+      type === "payment.succeeded" ||
+      type === "session.completed" ||
+      object?.status === "captured" ||
+      object?.status === "completed"
+
     if (!paid) return NextResponse.json({ ok: true, ignored: type ?? object?.status ?? "unknown" })
+
+    const months = normalizeMonths(object?.metadata?.months)
+    const aiAddon = object?.metadata?.aiAddon === "true" || object?.metadata?.aiAddon === true
+    const periodEnd = addDays(30 * months)
 
     await adminDb().collection("users").doc(uid).set({
       plan: "paid",
@@ -26,10 +41,14 @@ export async function POST(req: NextRequest) {
         accountType: "personal",
         status: "active",
         currentPlan: "paid",
-        currentPeriodEnd: addDays(30),
+        currentPeriodEnd: periodEnd,
+        purchasedMonths: months,
         komojuPaymentId: object?.id ?? null,
-        aiConversationEnabled: true,
-        aiSpeakingEnabled: true,
+        aiAddonSelected: aiAddon,
+        aiConversationEnabled: aiAddon,
+        aiSpeakingEnabled: aiAddon,
+        aiConversationExpiresAt: aiAddon ? periodEnd : null,
+        aiSpeakingExpiresAt: aiAddon ? periodEnd : null,
       },
       updatedAt: Timestamp.now(),
     }, { merge: true })

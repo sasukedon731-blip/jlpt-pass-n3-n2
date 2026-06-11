@@ -11,11 +11,11 @@ import { loadAndRepairUserPlanState, saveIndustryWithLock } from "@/app/lib/user
 type IndustryId = "construction" | "manufacturing" | "care" | "driver" | "undecided"
 
 const INDUSTRY_LABEL: Record<IndustryId, string> = {
-  construction: "建設",
-  manufacturing: "製造",
-  care: "介護",
-  driver: "運転・免許",
-  undecided: "未定（海外から）",
+  construction: "JLPT N3中心",
+  manufacturing: "JLPT N2中心",
+  care: "会話練習中心",
+  driver: "基礎復習中心",
+  undecided: "あとで選ぶ",
 }
 
 function isIndustryId(v: any): v is IndustryId {

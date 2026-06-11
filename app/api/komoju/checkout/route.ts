@@ -5,13 +5,26 @@ import { adminDb } from "@/app/lib/firebaseAdmin"
 
 export const runtime = "nodejs"
 
-const PRICE_YEN = 980
+const BASE_PRICE_YEN = 500
+const AI_ADDON_PRICE_YEN = 500
+const ALLOWED_MONTHS = [1, 3, 6] as const
+
+type AllowedMonth = (typeof ALLOWED_MONTHS)[number]
+
+function normalizeMonths(value: unknown): AllowedMonth {
+  const n = Number(value)
+  return ALLOWED_MONTHS.includes(n as AllowedMonth) ? (n as AllowedMonth) : 1
+}
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
     const idToken = body?.idToken
     const method = body?.method === "konbini" ? "konbini" : "credit_card"
+    const months = normalizeMonths(body?.months)
+    const aiAddon = body?.aiAddon === true
+    const amount = (BASE_PRICE_YEN + (aiAddon ? AI_ADDON_PRICE_YEN : 0)) * months
+
     if (!idToken) return NextResponse.json({ error: "ログイン情報がありません" }, { status: 401 })
 
     const decoded = await getAuth().verifyIdToken(idToken)
@@ -20,8 +33,24 @@ export async function POST(req: NextRequest) {
     const secret = process.env.KOMOJU_SECRET_KEY
     if (!secret) return NextResponse.json({ error: "KOMOJU_SECRET_KEY が未設定です" }, { status: 500 })
 
+    const lineItems = [
+      {
+        name: `JLPT PASS N3・N2 基本プラン ${months}ヶ月`,
+        amount: BASE_PRICE_YEN * months,
+        quantity: 1,
+      },
+    ]
+
+    if (aiAddon) {
+      lineItems.push({
+        name: `AI会話・AIスピーク追加 ${months}ヶ月`,
+        amount: AI_ADDON_PRICE_YEN * months,
+        quantity: 1,
+      })
+    }
+
     const payload = {
-      amount: PRICE_YEN,
+      amount,
       currency: "JPY",
       payment_types: [method],
       return_url: `${origin}/plans?checkout=success`,
@@ -31,14 +60,10 @@ export async function POST(req: NextRequest) {
         uid,
         app: "JLPT PASS N3・N2",
         plan: "paid",
+        months: String(months),
+        aiAddon: aiAddon ? "true" : "false",
       },
-      line_items: [
-        {
-          name: "JLPT PASS N3・N2 Japanese Study App",
-          amount: PRICE_YEN,
-          quantity: 1,
-        },
-      ],
+      line_items: lineItems,
     }
 
     const res = await fetch("https://komoju.com/api/v1/sessions", {
@@ -64,6 +89,8 @@ export async function POST(req: NextRequest) {
         currentPlan: "paid",
         komojuSessionId: data?.id ?? null,
         currentPeriodEnd: null,
+        purchasedMonths: months,
+        aiAddonSelected: aiAddon,
         aiConversationEnabled: false,
         aiSpeakingEnabled: false,
       },

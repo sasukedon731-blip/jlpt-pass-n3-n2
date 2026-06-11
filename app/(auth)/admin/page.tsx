@@ -329,9 +329,9 @@ export default function AdminPage() {
   }
 
   const label = (t: string) => {
-    if (t === "japanese-n4") return "N4"
-    if (t === "genba-listening") return "現場リスニング"
-    return "外国免許"
+    if (t === "japanese-n3") return "JLPT N3"
+    if (t === "japanese-n2") return "JLPT N2"
+    return t || "-"
   }
 
   const cell = (p: StudyProgress | null) => {

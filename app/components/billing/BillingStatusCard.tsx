@@ -158,9 +158,9 @@ export default function BillingStatusCard({
           }}
         >
           <div>
-            <div style={{ fontWeight: 900 }}>AI会話オプション</div>
+            <div style={{ fontWeight: 900 }}>AIオプション</div>
             <div style={{ marginTop: 4, fontSize: 13, opacity: 0.7 }}>
-              AI会話機能の利用状態
+              AI会話・AIスピークの利用状態
             </div>
           </div>
 
@@ -193,7 +193,7 @@ export default function BillingStatusCard({
           </div>
         ) : (
           <div style={{ marginTop: 10, fontSize: 13, opacity: 0.75 }}>
-            AI会話は有料オプションです。必要な場合はプラン購入時に追加してください。
+            AI会話・AIスピークは有料オプションです。必要な場合はプラン購入時に追加してください。
           </div>
         )}
       </div>

@@ -6,7 +6,7 @@ export type BillingStatus = "trialing" | "pending" | "active" | "past_due" | "ca
 export type BillingMethod = "komoju_card" | "komoju_konbini" | "company_code" | "manual"
 export type AccountType = "personal" | "company"
 
-export const PERSONAL_PLAN_PRICE_YEN = 980
+export const PERSONAL_PLAN_PRICE_YEN = 500
 export const TRIAL_DAYS = 1
 
 export function buildEntitledQuizTypes(_plan: PlanId): QuizType[] {
