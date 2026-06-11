@@ -139,7 +139,6 @@ export default function CompanyPage() {
           <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
             <button onClick={copyCode} style={subBtn} disabled={!companyCode || companyCode === "ALL"}>{copied ? "コピーしました" : `企業コード: ${companyCode || "—"}`}</button>
             <button onClick={exportCsv} style={primaryBtn} disabled={!rows.length}>CSV出力</button>
-            <Link href="/company/setup" style={subLink}>設定メモ</Link>
           </div>
         </div>
 
