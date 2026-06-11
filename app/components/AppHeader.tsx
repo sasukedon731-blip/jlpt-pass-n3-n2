@@ -11,7 +11,6 @@ import { useAuth } from "@/app/lib/useAuth"
 import { APP_MENU } from "@/app/components/appMenu"
 
 type Props = {
-  /** ページ上部に表示する小さめのタイトル（任意） */
   title?: string
 }
 
@@ -19,12 +18,10 @@ export default function AppHeader({ title }: Props) {
   const router = useRouter()
   const pathname = usePathname()
   const { user } = useAuth()
-
   const [open, setOpen] = useState(false)
 
   const isTop = pathname === "/"
   const items = APP_MENU
-
   const close = () => setOpen(false)
 
   const handleLogout = async () => {
@@ -41,8 +38,15 @@ export default function AppHeader({ title }: Props) {
         <div className="appHeaderLeft">
           <Link href="/" className="appHeaderBrand" aria-label="TOPへ">
             <span className="appHeaderLogo">📚</span>
-            <span className="appHeaderName">JLPT PASS N3・N2</span>
+
+            <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.15 }}>
+              <span className="appHeaderName">JLPT PASS N3・N2</span>
+              <span style={{ fontSize: "0.9rem", color: "#64748b", fontWeight: 600 }}>
+                Japanese Study App
+              </span>
+            </span>
           </Link>
+
           {title ? <span className="appHeaderTitle">{title}</span> : null}
         </div>
 
@@ -59,33 +63,18 @@ export default function AppHeader({ title }: Props) {
       </header>
 
       {open ? (
-        <div
-          className="drawerOverlay"
-          onClick={close}
-          role="dialog"
-          aria-label="menu"
-        >
+        <div className="drawerOverlay" onClick={close} role="dialog" aria-label="menu">
           <div className="drawerPanel" onClick={(e) => e.stopPropagation()}>
             <div className="drawerHead">
               <div style={{ fontWeight: 900 }}>メニュー</div>
-              <button
-                className="drawerClose"
-                aria-label="閉じる"
-                onClick={close}
-                type="button"
-              >
+              <button className="drawerClose" aria-label="閉じる" onClick={close} type="button">
                 ✕
               </button>
             </div>
 
             <div className="drawerBody">
               {items.map((it) => (
-                <Link
-                  key={it.href}
-                  href={it.href}
-                  className="drawerLink"
-                  onClick={close}
-                >
+                <Link key={it.href} href={it.href} className="drawerLink" onClick={close}>
                   <span className="drawerIcon" aria-hidden="true">{it.icon}</span>
                   <span className="drawerLabel">{it.label}</span>
                 </Link>
