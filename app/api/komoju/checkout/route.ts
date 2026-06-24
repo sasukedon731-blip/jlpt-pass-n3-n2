@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getAuth } from "firebase-admin/auth"
+import { adminAuth, adminDb } from "@/app/lib/firebaseAdmin"
 import { Timestamp } from "firebase-admin/firestore"
-import { adminDb } from "@/app/lib/firebaseAdmin"
 
 export const runtime = "nodejs"
 
@@ -27,7 +26,7 @@ export async function POST(req: NextRequest) {
 
     if (!idToken) return NextResponse.json({ error: "ログイン情報がありません" }, { status: 401 })
 
-    const decoded = await getAuth().verifyIdToken(idToken)
+    const decoded = await adminAuth().verifyIdToken(idToken)
     const uid = decoded.uid
     const origin = req.nextUrl.origin
     const secret = process.env.KOMOJU_SECRET_KEY
