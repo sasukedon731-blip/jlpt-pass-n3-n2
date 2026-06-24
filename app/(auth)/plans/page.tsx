@@ -120,11 +120,11 @@ export default function PlansPage() {
           {error && <p style={{ color: "#dc2626", fontWeight: 800 }}>{error}</p>}
 
           <button disabled={loading || saving} onClick={startCheckout} style={{ marginTop: 20, width: "100%", padding: "14px 16px", borderRadius: 16, border: "none", background: "#2563eb", color: "#fff", fontWeight: 950, cursor: "pointer" }}>
-            {saving ? "決済ページを作成中..." : "KOMOJUで購入する"}
+            {saving ? "決済ページを作成中..." : "購入する"}
           </button>
 
           <p style={{ fontSize: 12, color: "#64748b", lineHeight: 1.8 }}>
-            カード情報は当アプリでは保持せず、KOMOJU Checkout上で処理されます。コンビニ決済は入金確認後に反映されます。
+            カード情報は当アプリでは保持せず、安全な決済画面で処理されます。コンビニ決済は入金確認後に反映されます。
           </p>
         </section>
         <LegalFooter />
