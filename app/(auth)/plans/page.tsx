@@ -9,9 +9,9 @@ import { useAuth } from "@/app/lib/useAuth"
 const BASE_PRICE_YEN = 500
 const AI_ADDON_PRICE_YEN = 500
 const PERIODS = [
-  { months: 1, label: "1ヶ月" },
-  { months: 3, label: "3ヶ月" },
-  { months: 6, label: "6ヶ月" },
+  { months: 1, label: "30日" },
+  { months: 3, label: "90日" },
+  { months: 6, label: "180日" },
 ] as const
 
 export default function PlansPage() {
@@ -60,7 +60,7 @@ export default function PlansPage() {
           <div style={{ fontSize: 13, color: "#2563eb", fontWeight: 900 }}>JLPT PASS N3・N2</div>
           <h1 style={{ margin: "8px 0", fontSize: 32 }}>プランを選択</h1>
           <p style={{ color: "#64748b", lineHeight: 1.8 }}>
-            基本プランは1ヶ月500円。AI会話・AIスピークを使う場合はAI追加オプションを選択してください。
+            基本プランは30日500円。90日・180日も選択できます。AI会話・AIスピーキングを使う場合はAI追加オプションを選択してください。
             企業コード登録ユーザーは企業契約扱いのため、支払い不要です。
           </p>
         </div>
@@ -85,11 +85,11 @@ export default function PlansPage() {
               <span>基本学習＋ゲーム</span>
             </button>
             <button onClick={() => setAiAddon(true)} style={{ ...(aiAddon ? activeOption : option), marginTop: 10 }}>
-              <span style={{ fontWeight: 950 }}>AI会話・AIスピークを追加</span>
+              <span style={{ fontWeight: 950 }}>AI会話・AIスピーキングを追加</span>
               <span>+¥{(AI_ADDON_PRICE_YEN * months).toLocaleString("ja-JP")}</span>
             </button>
             <p style={{ fontSize: 12, color: "#64748b", lineHeight: 1.7 }}>
-              AI追加は1ヶ月500円です。選択した利用期間に合わせて計算されます。
+              AI追加は30日500円です。選択した利用期間に合わせて計算されます。
             </p>
           </section>
         </div>
@@ -99,7 +99,7 @@ export default function PlansPage() {
             <div>
               <h2 style={{ margin: 0 }}>お支払い内容</h2>
               <p style={{ color: "#64748b", lineHeight: 1.8 }}>
-                N3・N2学習 / ゲーム / マイページ{aiAddon ? " / AI会話 / AIスピーク" : ""}
+                N3・N2学習 / ゲーム / マイページ{aiAddon ? " / AI会話 / AIスピーキング" : ""}
               </p>
               <p style={{ margin: 0, color: "#334155", fontWeight: 800 }}>
                 基本 ¥{baseTotal.toLocaleString("ja-JP")} {aiAddon ? `＋ AI ¥${aiTotal.toLocaleString("ja-JP")}` : ""}

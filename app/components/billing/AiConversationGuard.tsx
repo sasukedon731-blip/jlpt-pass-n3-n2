@@ -62,8 +62,8 @@ export default function AiConversationGuard({
 
   return (
     <BlockedCard
-      title="AI会話・AIスピークは有料オプションです"
-      description="AI会話・AIスピークはプラン購入時のオプション追加で利用できます。"
+      title="AI会話・AIスピーキングは有料オプションです"
+      description="AI会話・AIスピーキングはプラン購入時のオプション追加で利用できます。"
       plansHref={plansHref}
       buttonLabel="プランを見る"
       footerNote={aiDaysLeft > 0 ? `残り ${aiDaysLeft} 日` : undefined}

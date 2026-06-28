@@ -27,7 +27,7 @@ export default function SelectModePage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 14, marginTop: 22 }}>
           <Mini href="/game" icon="🎮" title="ゲーム" desc="日本語バトルで楽しく復習" />
           <Mini href="/conversation" icon="💬" title="AI会話" desc="日本語で会話練習" />
-          <Mini href="/speaking" icon="🎙️" title="AIスピーク" desc="発話練習と添削" />
+          <Mini href="/speaking" icon="🎙️" title="AIスピーキング" desc="発話練習と添削" />
           <Mini href="/mypage" icon="👤" title="マイページ" desc="学習履歴を確認" />
         </div>
         <LegalFooter />

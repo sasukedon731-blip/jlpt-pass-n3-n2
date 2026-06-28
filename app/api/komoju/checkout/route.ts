@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
 
     if (aiAddon) {
       lineItems.push({
-        name: `AI会話・AIスピーク追加 ${months}ヶ月`,
+        name: `AI会話・AIスピーキング追加 ${months}ヶ月`,
         amount: AI_ADDON_PRICE_YEN * months,
         quantity: 1,
       })

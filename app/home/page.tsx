@@ -41,7 +41,7 @@ export default function AppHomePage() {
           <HomeCard icon="📙" title="N2学習" text="より高い日本語力へ" onClick={() => router.push("/select-mode?type=japanese-n2")} />
           <HomeCard icon="🎮" title="ゲーム" text="N5〜N2を復習" onClick={() => router.push("/game")} />
           <HomeCard icon="💬" title="AI会話" text="会話練習をする" onClick={() => router.push("/conversation")} />
-          <HomeCard icon="🎙️" title="AIスピーク" text="発話練習をする" onClick={() => router.push("/speaking")} />
+          <HomeCard icon="🎙️" title="AIスピーキング" text="発話練習をする" onClick={() => router.push("/speaking")} />
           <HomeCard icon="👤" title="マイページ" text="履歴と進捗を確認" onClick={() => router.push("/mypage")} />
         </div>
 

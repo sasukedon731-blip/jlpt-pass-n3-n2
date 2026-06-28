@@ -27,7 +27,7 @@ export default function HomePage() {
               Japanese Study App
             </h1>
             <p style={{ fontSize: 17, lineHeight: 1.9, color: "#475569", maxWidth: 640 }}>
-              N3・N2学習、N5〜N2の復習ゲーム、AI会話、AIスピークをひとつにまとめた学習アプリです。個人は1日無料体験、企業コード登録ユーザーは支払い不要で利用できます。
+              N3・N2学習、N5〜N2の復習ゲーム、AI会話、AIスピーキングをひとつにまとめた学習アプリです。個人は1日無料体験、企業コード登録ユーザーは支払い不要で利用できます。
             </p>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 24 }}>
               {loading ? null : user ? (
@@ -72,7 +72,7 @@ export default function HomePage() {
             <Feature href="/select-mode?type=japanese-n2" icon="📙" title="N2学習" />
             <Feature href="/game" icon="🎮" title="N5〜N2ゲーム" />
             <Feature href="/conversation" icon="💬" title="AI会話" />
-            <Feature href="/speaking" icon="🎙️" title="AIスピーク" />
+            <Feature href="/speaking" icon="🎙️" title="AIスピーキング" />
             <Feature href="/company/login" icon="🏢" title="企業管理" />
           </div>
         </section>

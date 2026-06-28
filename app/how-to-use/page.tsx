@@ -72,10 +72,10 @@ export default function HowToUsePage() {
         <p style={{ color: "#6b7280", marginBottom: 16 }}>How to use this app</p>
 
         <p>
-          仕事で使う日本語や資格対策を学べます。まずは無料の日本語バトルから始めてください。
+          JLPT N3・N2の日本語学習、復習ゲーム、AI会話、AIスピーキングを利用できます。まずは1日無料体験から始めてください。
         </p>
         <p style={{ color: "#6b7280" }}>
-          Learn Japanese for work and exams. Start with the free Japanese Battle.
+          Study JLPT N3/N2 with lessons, review games, AI conversation, and AI speaking practice.
         </p>
       </div>
 
@@ -94,8 +94,8 @@ export default function HowToUsePage() {
           <p style={{ color: "#6b7280", marginBottom: 12 }}>What you can do for free</p>
 
           <ul className="stackSm" style={{ color: "#111827" }}>
-            <li>・日本語バトル（1日1回）</li>
-            <li style={{ color: "#6b7280", fontSize: 13 }}>Play once per day</li>
+            <li>・一般ユーザーは1日無料体験</li>
+            <li style={{ color: "#6b7280", fontSize: 13 }}>1-day free trial for personal users</li>
           </ul>
 
           <ActionButton
@@ -114,10 +114,10 @@ export default function HowToUsePage() {
           <p style={{ color: "#6b7280", marginBottom: 12 }}>Paid features</p>
 
           <ul className="stackSm" style={{ color: "#111827" }}>
-            <li>・3 / 5 / 7教材</li>
-            <li>・業種別学習</li>
-            <li>・試験対策</li>
-            <li>・AI会話（＋500円）</li>
+            <li>・N3・N2教材</li>
+            <li>・復習ゲーム</li>
+            <li>・AI会話</li>
+            <li>・AIスピーキング</li>
           </ul>
 
           <ActionButton
@@ -136,8 +136,8 @@ export default function HowToUsePage() {
 
         <div className="stack">
           <div className="panel">
-            <p style={{ fontWeight: 900, marginBottom: 4 }}>① 日本語バトル</p>
-            <p style={{ color: "#6b7280", margin: 0 }}>Free game to check your level</p>
+            <p style={{ fontWeight: 900, marginBottom: 4 }}>① レベル・教材選択</p>
+            <p style={{ color: "#6b7280", margin: 0 }}>Choose N3 or N2 lessons</p>
           </div>
 
           <div className="panel">
@@ -151,8 +151,8 @@ export default function HowToUsePage() {
           </div>
 
           <div className="panel">
-            <p style={{ fontWeight: 900, marginBottom: 4 }}>④ AI会話</p>
-            <p style={{ color: "#6b7280", margin: 0 }}>Practice conversation</p>
+            <p style={{ fontWeight: 900, marginBottom: 4 }}>④ AI会話・AIスピーキング</p>
+            <p style={{ color: "#6b7280", margin: 0 }}>Practice conversation and speaking</p>
           </div>
         </div>
       </div>
