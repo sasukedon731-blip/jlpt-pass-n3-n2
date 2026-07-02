@@ -493,15 +493,10 @@ const totalBadgeCount = useMemo(() => getTotalBadgeCount(), [badges])
           </div>
         </section>
 
-        {/* ✅ あなたの設定 */}
+        {/* ✅ 学習サマリー */}
         <section style={S.card}>
           <div style={S.cardHeadRow}>
-            <div style={S.cardTitle}>あなたの設定</div>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <button style={S.linkBtn} onClick={() => router.push("/select-quizzes")} title="教材選択へ">
-                教材を変更 →
-              </button>
-            </div>
+            <div style={S.cardTitle}>学習サマリー</div>
           </div>
 
           <div style={{ marginTop: 10, display: "grid", gap: 10 }}>
