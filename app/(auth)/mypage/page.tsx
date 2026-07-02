@@ -175,48 +175,6 @@ type DetailState = {
   progress: Progress | null
 }
 
-// =======================
-// ✅ 業種（マイページ最適化）
-// =======================
-type IndustryId = "construction" | "manufacturing" | "care" | "driver" | "undecided"
-
-const INDUSTRY_LABEL: Record<IndustryId, string> = {
-  construction: "JLPT N3",
-  manufacturing: "JLPT N2",
-  care: "日本語会話",
-  driver: "基礎復習",
-  undecided: "未選択",
-}
-
-function isIndustryId(v: any): v is IndustryId {
-  return v === "construction" || v === "manufacturing" || v === "care" || v === "driver" || v === "undecided"
-}
-
-const LS_INDUSTRY_KEY = "selected-industry"
-
-const JAPANESE_BASE: QuizType[] = ["japanese-n4", "japanese-n3", "japanese-n2", "speaking-practice"]
-
-const INDUSTRY_EXTRA: Record<IndustryId, QuizType[]> = {
-  construction: [
-    "genba-listening",
-    "genba-phrasebook",
-    "kenchiku-sekou-2kyu-1ji",
-    "doboku-sekou-2kyu-1ji",
-    "denki-sekou-2kyu-1ji",
-    "kanko-sekou-2kyu-1ji",
-  ],
-  manufacturing: ["genba-listening", "genba-phrasebook"],
-  care: [],
-  driver: ["gaikoku-license"],
-  undecided: [],
-}
-
-function buildAllowed(industry: IndustryId | null): Set<string> {
-  if (!industry) return new Set()
-  const extra = INDUSTRY_EXTRA[industry] ?? []
-  return new Set<string>([...JAPANESE_BASE, ...extra])
-}
-
 export default function MyPage() {
   const router = useRouter()
 
@@ -228,16 +186,7 @@ export default function MyPage() {
 
   const [attackRanks, setAttackRanks] = useState<Record<string, { rank: number | null; bestScore: number }>>({})
 
-  // ✅ ユーザーの業種（Firestore優先、無ければ localStorage）
-  const [industry, setIndustry] = useState<IndustryId | null>(null)
-  const [showAllCards, setShowAllCards] = useState(false)
   const [badges, setBadges] = useState<string[]>([])
-
-  const withIndustry = (path: string) => {
-    if (!industry) return path
-    const join = path.includes("?") ? "&" : "?"
-    return `${path}${join}industry=${encodeURIComponent(industry)}`
-  }
 
   // ✅ インデックス不要：結果まとめ持ち
   const [allResults, setAllResults] = useState<QuizResult[]>([])
@@ -301,7 +250,7 @@ export default function MyPage() {
   }, [user])
 
   // =======================
-  // 業種ロード（Firestore → localStorage）
+  // User profile
   // =======================
   useEffect(() => {
     ;(async () => {
@@ -310,24 +259,11 @@ export default function MyPage() {
         const userRef = doc(db, "users", user.uid)
         const snap = await getDoc(userRef)
         const userData = snap.exists() ? ((snap.data() as any) ?? {}) : {}
-        const v = userData?.industry ?? null
         const badgeList = Array.isArray(userData?.badges) ? userData.badges.filter((x: any) => typeof x === "string") : []
         setBadges(badgeList)
-        if (isIndustryId(v)) {
-          setIndustry(v)
-          try {
-            localStorage.setItem(LS_INDUSTRY_KEY, v)
-          } catch {}
-          return
-        }
       } catch {
         // ignore
       }
-
-      try {
-        const saved = localStorage.getItem(LS_INDUSTRY_KEY)
-        if (isIndustryId(saved)) setIndustry(saved)
-      } catch {}
     })()
   }, [user?.uid])
 
@@ -431,16 +367,9 @@ export default function MyPage() {
     }
   }
 
-  // =======================
-  // catalog visible by industry
-  // =======================
-  const allowedSet = useMemo(() => buildAllowed(industry), [industry])
-
   const visibleCatalog = useMemo(() => {
-    const enabled = quizCatalog.filter((q) => q.enabled).sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
-    if (!industry || showAllCards) return enabled
-    return enabled.filter((q) => allowedSet.has(q.id))
-  }, [industry, showAllCards, allowedSet])
+    return quizCatalog.filter((q) => q.enabled).sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
+  }, [])
 
   const badgeItems = useMemo(() => {
   return getPreviewBadgeMeta(badges, 8)
@@ -500,13 +429,11 @@ const totalBadgeCount = useMemo(() => getTotalBadgeCount(), [badges])
 
           <nav style={S.nav}>
             {APP_MENU.map((it) => {
-              const href =
-                it.href === "/select-mode" ? withIndustry(it.href) : it.href
               return (
                 <Link
                   key={it.href}
                   style={S.navItem}
-                  href={href}
+                  href={it.href}
                   onClick={() => setDrawerOpen(false)}
                 >
                   {it.icon} {it.label}
@@ -571,27 +498,13 @@ const totalBadgeCount = useMemo(() => getTotalBadgeCount(), [badges])
           <div style={S.cardHeadRow}>
             <div style={S.cardTitle}>あなたの設定</div>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <button style={S.linkBtn} onClick={() => router.push(withIndustry("/select-quizzes"))} title="教材選択へ">
+              <button style={S.linkBtn} onClick={() => router.push("/select-quizzes")} title="教材選択へ">
                 教材を変更 →
-              </button>
-
-              <button style={S.linkBtn} onClick={() => setShowAllCards((v) => !v)} title="教材カードの表示切替">
-                {showAllCards ? "業種で絞る" : "すべて表示"}
               </button>
             </div>
           </div>
 
           <div style={{ marginTop: 10, display: "grid", gap: 10 }}>
-            <div style={S.kv}>
-              <div style={S.kvLabel}>選択中の業種</div>
-              <div style={S.kvValue}>{industry ? INDUSTRY_LABEL[industry] : "未設定"}</div>
-              <div style={S.kvHint}>
-                {industry
-                  ? "マイページの教材カードは業種で最適化されています（日本語基礎は常に表示）"
-                  : "業種を選ぶと、教材カードが最適化されます"}
-              </div>
-            </div>
-
             {/* ✅ 進捗（2列・コンパクト） */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
               <MiniStat label="総学習回数" value={`${totalSessionsAll}`} sub="全教材合計" />
@@ -821,7 +734,7 @@ const totalBadgeCount = useMemo(() => getTotalBadgeCount(), [badges])
   )}
 </section>
 
-        {/* 教材カード：業種で最適化（最強：行タップで詳細） */}
+        {/* 教材カード：行タップで詳細 */}
         <section style={S.card}>
           <div style={S.cardHeadRow}>
             <div style={S.cardTitle}>教材</div>
