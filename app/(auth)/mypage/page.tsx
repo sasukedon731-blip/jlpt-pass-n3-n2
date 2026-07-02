@@ -11,15 +11,12 @@ import { auth, db } from "@/app/lib/firebase"
 import type { QuizType } from "@/app/data/types"
 import { quizCatalog } from "@/app/data/quizCatalog"
 import { fetchMyAttackRank } from "../game/firestore"
-import BillingStatusCard from "@/app/components/billing/BillingStatusCard"
-import { getPlanLabel } from "@/app/lib/billingAccess"
 import {
   getPreviewBadgeMeta,
   getTotalBadgeCount,
   getUnlockedBadgeCount,
   getRarityColors,
 } from "@/app/lib/badges"
-import PendingPaymentNotice from "@/app/components/billing/PendingPaymentNotice"
 
 type QuizResult = {
   score: number
@@ -38,17 +35,6 @@ type Progress = {
   updatedAt?: any
 }
 
-
-type BillingData = Partial<{
-  status: "trialing" | "pending" | "active" | "past_due" | "canceled" | "expired"
-  currentPlan: "trial" | "paid" | "company"
-  currentPeriodEnd: any
-  aiConversationEnabled: boolean
-  aiConversationExpiresAt: any
-  komojuSessionId: string | null
-  komojuPaymentId: string | null
-  method: "komoju_card" | "komoju_konbini" | "company_code" | "manual"
-}>
 
 function toDate(v: any): Date | null {
   if (!v) return null
@@ -246,7 +232,6 @@ export default function MyPage() {
   const [industry, setIndustry] = useState<IndustryId | null>(null)
   const [showAllCards, setShowAllCards] = useState(false)
   const [badges, setBadges] = useState<string[]>([])
-  const [billing, setBilling] = useState<BillingData | null>(null)
 
   const withIndustry = (path: string) => {
     if (!industry) return path
@@ -328,8 +313,6 @@ export default function MyPage() {
         const v = userData?.industry ?? null
         const badgeList = Array.isArray(userData?.badges) ? userData.badges.filter((x: any) => typeof x === "string") : []
         setBadges(badgeList)
-        const billingData = userData?.billing && typeof userData.billing === "object" ? userData.billing as BillingData : null
-        setBilling(billingData)
         if (isIndustryId(v)) {
           setIndustry(v)
           try {
@@ -465,7 +448,6 @@ export default function MyPage() {
 
 const unlockedBadgeCount = useMemo(() => getUnlockedBadgeCount(badges), [badges])
 const totalBadgeCount = useMemo(() => getTotalBadgeCount(), [badges])
-const currentPlanLabel = useMemo(() => getPlanLabel(billing?.currentPlan ?? null), [billing])
 
   // =======================
   // summaries
@@ -610,12 +592,6 @@ const currentPlanLabel = useMemo(() => getPlanLabel(billing?.currentPlan ?? null
               </div>
             </div>
 
-            <div style={S.kv}>
-              <div style={S.kvLabel}>現在のプラン</div>
-              <div style={S.kvValue}>{currentPlanLabel}</div>
-              <div style={S.kvHint}>契約状態や有効期限は下の「ご利用プラン」で確認できます</div>
-            </div>
-
             {/* ✅ 進捗（2列・コンパクト） */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
               <MiniStat label="総学習回数" value={`${totalSessionsAll}`} sub="全教材合計" />
@@ -624,11 +600,6 @@ const currentPlanLabel = useMemo(() => getPlanLabel(billing?.currentPlan ?? null
               <MiniStat label="最大streak" value={streakMax ? String(streakMax) : "—"} sub="教材別の最大streak" />
             </div>
           </div>
-        </section>
-
-        <section style={S.card}>
-          <PendingPaymentNotice billing={billing} />
-          <BillingStatusCard billing={billing} plansHref="/plans" />
         </section>
 
         {/* AI学習履歴 */}

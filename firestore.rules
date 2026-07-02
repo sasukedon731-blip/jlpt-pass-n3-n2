@@ -5,14 +5,49 @@ service cloud.firestore {
     function myUser() { return get(/databases/$(database)/documents/users/$(request.auth.uid)); }
     function myRole() { return signedIn() && myUser().data.role; }
     function myCompanyCode() { return signedIn() && myUser().data.companyCode; }
+    function validCompanyCode(code) {
+      return code is string
+        && code.size() > 0
+        && exists(/databases/$(database)/documents/companies/$(code))
+        && get(/databases/$(database)/documents/companies/$(code)).data.inviteEnabled != false;
+    }
+    function validCompanyLinkUpdate() {
+      let data = request.resource.data;
+      let changed = request.resource.data.diff(resource.data).affectedKeys();
+      return changed.hasOnly([
+          'accountType',
+          'billing',
+          'companyCode',
+          'companyName',
+          'email',
+          'plan',
+          'schemaVersion',
+          'selectedQuizTypes',
+          'uid',
+          'updatedAt'
+        ])
+        && validCompanyCode(data.companyCode)
+        && data.accountType == 'company'
+        && data.plan == 'company'
+        && data.billing.accountType == 'company'
+        && data.billing.method == 'company_code'
+        && data.billing.status == 'active'
+        && data.billing.currentPlan == 'company'
+        && data.billing.currentPeriodEnd == null
+        && data.billing.aiConversationEnabled == true
+        && data.billing.aiSpeakingEnabled == true;
+    }
 
     match /users/{userId} {
       allow create: if signedIn() && request.auth.uid == userId;
       allow read: if signedIn() && (request.auth.uid == userId || myRole() == 'admin' || myRole() == 'company_admin');
       allow update: if signedIn()
         && request.auth.uid == userId
-        && !('billing' in request.resource.data.diff(resource.data).changedKeys())
-        && !('role' in request.resource.data.diff(resource.data).changedKeys());
+        && !('role' in request.resource.data.diff(resource.data).affectedKeys())
+        && (
+          !('billing' in request.resource.data.diff(resource.data).affectedKeys())
+          || validCompanyLinkUpdate()
+        );
       allow delete: if myRole() == 'admin';
     }
 
