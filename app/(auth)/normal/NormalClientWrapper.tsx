@@ -74,6 +74,7 @@ export default function NormalClientWrapper() {
     if (loading) return
     if (!user) return
     if (!stateLoaded) return
+    if (accessBlocked) return
     if (allowed === null) return
 
     // (A) type が無い/不正 → hubへ
@@ -99,7 +100,7 @@ export default function NormalClientWrapper() {
       router.replace("/select-mode")
       return
     }
-  }, [loading, user, stateLoaded, allowed, quizType, quiz, router])
+  }, [loading, user, stateLoaded, accessBlocked, allowed, quizType, quiz, router])
 
   
   // ③ 画面描画ガード

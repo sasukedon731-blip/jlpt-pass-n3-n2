@@ -39,7 +39,7 @@ export default function PlansPage() {
   const aiTotal = aiAddon ? AI_ADDON_PRICE_YEN * months : 0
   const total = useMemo(() => baseTotal + aiTotal, [baseTotal, aiTotal])
   const isPendingPayment = billing?.status === "pending"
-  const showPurchaseForm = !billingLoading && !isPendingPayment
+  const showPurchaseForm = !billingLoading
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -131,7 +131,7 @@ export default function PlansPage() {
             </>
           ) : null}
 
-          {showPurchaseForm && checkoutStatus ? (
+          {showPurchaseForm && !isPendingPayment && checkoutStatus ? (
             <CheckoutResultNotice checkout={checkoutStatus} showAiCta={aiAddon} />
           ) : null}
 

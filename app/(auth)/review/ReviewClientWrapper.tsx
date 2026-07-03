@@ -83,6 +83,7 @@ export default function ReviewClientWrapper() {
     if (loading) return
     if (!user) return
     if (!stateLoaded) return
+    if (accessBlocked) return
     if (allowed === null) return
 
     // (A) type が無い/不正 → hub
@@ -108,7 +109,7 @@ export default function ReviewClientWrapper() {
       router.replace("/select-mode")
       return
     }
-  }, [loading, user, stateLoaded, allowed, quizType, quiz, router])
+  }, [loading, user, stateLoaded, accessBlocked, allowed, quizType, quiz, router])
 
   
   // ③ 描画ガード
