@@ -1,7 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
+import { FirebaseError } from "firebase/app"
+import { createUserWithEmailAndPassword, deleteUser, updateProfile, type User } from "firebase/auth"
 import { doc, getDoc, setDoc, serverTimestamp, Timestamp } from "firebase/firestore"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -26,18 +27,20 @@ export default function RegisterPage() {
     if (!email.trim()) { setError("メールアドレスを入力してください"); setLoading(false); return }
     if (!password || password.length < 6) { setError("パスワードは6文字以上で入力してください"); setLoading(false); return }
 
+    let createdUser: User | null = null
     try {
-      let companyData: any = null
-      const code = companyCode.trim()
+      let companyData: { inviteEnabled?: boolean; name?: string } | null = null
+      const code = companyCode.trim().toUpperCase()
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+      createdUser = userCredential.user
+      await userCredential.user.getIdToken(true)
       if (code) {
         const companySnap = await getDoc(doc(db, "companies", code))
-        if (!companySnap.exists() || companySnap.data()?.inviteEnabled === false) {
+        if (!companySnap.exists() || companySnap.data().inviteEnabled !== true) {
           throw new Error("企業コードが見つからない、または利用停止中です")
         }
         companyData = companySnap.data()
       }
-
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
       await updateProfile(userCredential.user, { displayName: username })
       const uid = userCredential.user.uid
       const selectedQuizTypes = buildEntitledQuizTypes(companyData ? "company" : "trial")
@@ -77,15 +80,19 @@ export default function RegisterPage() {
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       })
+      createdUser = null
 
       router.push("/")
-    } catch (err: any) {
+    } catch (err: unknown) {
+      if (createdUser) {
+        try { await deleteUser(createdUser) } catch (cleanupError) { console.error("Failed to roll back Auth user", cleanupError) }
+      }
       console.error(err)
-      const code = err?.code ?? ""
+      const code = err instanceof FirebaseError ? err.code : ""
       if (code === "auth/email-already-in-use") setError("このメールアドレスは既に登録されています")
       else if (code === "auth/invalid-email") setError("メールアドレスの形式が正しくありません")
       else if (code === "auth/weak-password") setError("パスワードが弱すぎます（6文字以上）")
-      else setError(err?.message || code || "登録に失敗しました")
+      else setError(err instanceof Error ? err.message : code || "登録に失敗しました")
     } finally {
       setLoading(false)
     }
