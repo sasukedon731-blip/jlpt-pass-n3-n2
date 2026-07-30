@@ -10,10 +10,12 @@ import BillingStatusCard from "@/app/components/billing/BillingStatusCard"
 import CheckoutResultNotice from "@/app/components/billing/CheckoutResultNotice"
 import KonbiniGuideNotice from "@/app/components/billing/KonbiniGuideNotice"
 import PendingPaymentNotice from "@/app/components/billing/PendingPaymentNotice"
+import CompanyContractCard from "@/app/components/billing/CompanyContractCard"
 import TrialStatusCard, { type TrialProfile } from "@/app/components/billing/TrialStatusCard"
 import LegalFooter from "@/app/components/LegalFooter"
 import { db } from "@/app/lib/firebase"
 import type { BillingLike } from "@/app/lib/billingAccess"
+import { isCompanyAccount } from "@/app/lib/companyAccount"
 import { useAuth } from "@/app/lib/useAuth"
 
 const BASE_PRICE_YEN = 500
@@ -40,8 +42,9 @@ export default function PlansPage() {
   const baseTotal = BASE_PRICE_YEN * months
   const aiTotal = aiAddon ? AI_ADDON_PRICE_YEN * months : 0
   const total = useMemo(() => baseTotal + aiTotal, [baseTotal, aiTotal])
+  const isCompany = isCompanyAccount(trialProfile)
   const isPendingPayment = billing?.status === "pending"
-  const showPurchaseForm = !billingLoading
+  const showPurchaseForm = !billingLoading && !isCompany
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -130,9 +133,10 @@ export default function PlansPage() {
             </section>
           ) : null}
 
-          {!billingLoading && trialProfile ? <TrialStatusCard profile={trialProfile} /> : null}
+          {!billingLoading && isCompany ? <CompanyContractCard /> : null}
+          {!billingLoading && trialProfile && !isCompany ? <TrialStatusCard profile={trialProfile} /> : null}
 
-          {!billingLoading && isPendingPayment ? (
+          {!billingLoading && !isCompany && isPendingPayment ? (
             <>
               <PendingPaymentNotice billing={billing} />
               <BillingStatusCard billing={billing} plansHref="/plans" />

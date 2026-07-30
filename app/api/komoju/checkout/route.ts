@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { adminAuth, adminDb } from "@/app/lib/firebaseAdmin"
 import { Timestamp } from "firebase-admin/firestore"
+import { isCompanyAccount } from "@/app/lib/companyAccount"
 
 export const runtime = "nodejs"
 
@@ -28,6 +29,19 @@ export async function POST(req: NextRequest) {
 
     const decoded = await adminAuth().verifyIdToken(idToken)
     const uid = decoded.uid
+    const firestore = adminDb()
+    const userRef = firestore.collection("users").doc(uid)
+    const userSnapshot = await userRef.get()
+    if (!userSnapshot.exists) {
+      return NextResponse.json({ error: "ユーザー情報が見つかりません" }, { status: 404 })
+    }
+    if (isCompanyAccount(userSnapshot.data())) {
+      return NextResponse.json(
+        { error: "企業契約ユーザーは個人向けプランを購入できません" },
+        { status: 403 },
+      )
+    }
+
     const origin = req.nextUrl.origin
     const secret = process.env.KOMOJU_SECRET_KEY
     if (!secret) return NextResponse.json({ error: "KOMOJU_SECRET_KEY が未設定です" }, { status: 500 })
@@ -80,7 +94,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "KOMOJU決済ページの作成に失敗しました" }, { status: 500 })
     }
 
-    await adminDb().collection("users").doc(uid).set({
+    await userRef.set({
       billing: {
         accountType: "personal",
         method: method === "konbini" ? "komoju_konbini" : "komoju_card",

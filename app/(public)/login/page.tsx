@@ -8,6 +8,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 
 import { auth, db } from "@/app/lib/firebase"
+import { buildCompanyBilling } from "@/app/lib/companyAccount"
 import { buildEntitledQuizTypes } from "@/app/lib/plan"
 
 type CompanyDoc = {
@@ -72,15 +73,7 @@ export default function LoginPage() {
               companyCode: trimmedCompanyCode,
               companyName: companyData.name ?? null,
               accountType: "company",
-              billing: {
-                accountType: "company",
-                method: "company_code",
-                status: "active",
-                currentPlan: "company",
-                currentPeriodEnd: null,
-                aiConversationEnabled: true,
-                aiSpeakingEnabled: true,
-              },
+              billing: buildCompanyBilling(true),
               updatedAt: serverTimestamp(),
             },
             { merge: true }

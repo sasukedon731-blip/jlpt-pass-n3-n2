@@ -19,6 +19,8 @@ import {
   getRarityColors,
 } from "@/app/lib/badges"
 import TrialStatusCard, { type TrialProfile } from "@/app/components/billing/TrialStatusCard"
+import CompanyContractCard from "@/app/components/billing/CompanyContractCard"
+import { isCompanyAccount } from "@/app/lib/companyAccount"
 
 type QuizResult = {
   score: number
@@ -466,7 +468,8 @@ const totalBadgeCount = useMemo(() => getTotalBadgeCount(), [badges])
 
         {error ? <div style={S.alert}>{error}</div> : null}
 
-        {trialProfile ? <TrialStatusCard profile={trialProfile} showPlansLink /> : null}
+        {trialProfile && isCompanyAccount(trialProfile) ? <CompanyContractCard /> : null}
+        {trialProfile && !isCompanyAccount(trialProfile) ? <TrialStatusCard profile={trialProfile} showPlansLink /> : null}
 
         {/* 🏆 アタック戦績（縦並び） */}
         <section style={S.card}>

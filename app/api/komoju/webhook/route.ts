@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import { Timestamp } from "firebase-admin/firestore"
 import { adminDb } from "@/app/lib/firebaseAdmin"
+import { isCompanyAccount } from "@/app/lib/companyAccount"
 
 export const runtime = "nodejs"
 
@@ -31,11 +32,18 @@ export async function POST(req: NextRequest) {
 
     if (!paid) return NextResponse.json({ ok: true, ignored: type ?? object?.status ?? "unknown" })
 
+    const userRef = adminDb().collection("users").doc(uid)
+    const userSnapshot = await userRef.get()
+    if (userSnapshot.exists && isCompanyAccount(userSnapshot.data())) {
+      console.error("KOMOJU webhook skipped billing update for company account", { uid, type })
+      return NextResponse.json({ ok: true, skipped: "company account" })
+    }
+
     const months = normalizeMonths(object?.metadata?.months)
     const aiAddon = object?.metadata?.aiAddon === "true" || object?.metadata?.aiAddon === true
     const periodEnd = addDays(30 * months)
 
-    await adminDb().collection("users").doc(uid).set({
+    await userRef.set({
       plan: "paid",
       billing: {
         accountType: "personal",

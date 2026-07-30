@@ -8,6 +8,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 
 import { auth, db } from "@/app/lib/firebase"
+import { buildCompanyBilling } from "@/app/lib/companyAccount"
 import { buildEntitledQuizTypes } from "@/app/lib/plan"
 
 export default function RegisterPage() {
@@ -57,15 +58,7 @@ export default function RegisterPage() {
         companyName: companyData?.name ?? null,
         accountType: companyData ? "company" : "personal",
         billing: companyData
-          ? {
-              accountType: "company",
-              method: "company_code",
-              status: "active",
-              currentPlan: "company",
-              currentPeriodEnd: null,
-              aiConversationEnabled: true,
-              aiSpeakingEnabled: true,
-            }
+          ? buildCompanyBilling(true)
           : {
               accountType: "personal",
               method: "manual",

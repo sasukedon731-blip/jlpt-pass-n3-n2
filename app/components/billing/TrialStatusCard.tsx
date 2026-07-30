@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
+import { isCompanyAccount } from "@/app/lib/companyAccount"
 
 type DateLike =
   | Date
@@ -14,6 +15,7 @@ type DateLike =
 export type TrialProfile = {
   plan?: string | null
   accountType?: string | null
+  companyCode?: string | null
   trialStartedAt?: DateLike
   trialStartsAt?: DateLike
   trialStartAt?: DateLike
@@ -23,6 +25,7 @@ export type TrialProfile = {
     status?: string | null
     currentPlan?: string | null
     accountType?: string | null
+    method?: string | null
     trialStartedAt?: DateLike
     trialStartsAt?: DateLike
     trialStartAt?: DateLike
@@ -70,7 +73,7 @@ function getTrialState(profile: TrialProfile, now: number | null): TrialState {
   const plan = profile.billing?.currentPlan ?? profile.plan
   const status = profile.billing?.status
 
-  if (accountType === "company" || plan === "company") return { kind: "hidden" }
+  if (isCompanyAccount(profile) || accountType === "company" || plan === "company") return { kind: "hidden" }
   if (plan === "paid" || status === "active" || status === "pending" || status === "past_due" || status === "canceled") {
     return { kind: "hidden" }
   }
