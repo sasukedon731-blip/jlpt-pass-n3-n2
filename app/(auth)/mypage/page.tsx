@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import React, { useEffect, useMemo, useState } from "react"
@@ -17,6 +18,7 @@ import {
   getUnlockedBadgeCount,
   getRarityColors,
 } from "@/app/lib/badges"
+import TrialStatusCard, { type TrialProfile } from "@/app/components/billing/TrialStatusCard"
 
 type QuizResult = {
   score: number
@@ -187,6 +189,7 @@ export default function MyPage() {
   const [attackRanks, setAttackRanks] = useState<Record<string, { rank: number | null; bestScore: number }>>({})
 
   const [badges, setBadges] = useState<string[]>([])
+  const [trialProfile, setTrialProfile] = useState<TrialProfile | null>(null)
 
   // ✅ インデックス不要：結果まとめ持ち
   const [allResults, setAllResults] = useState<QuizResult[]>([])
@@ -261,6 +264,7 @@ export default function MyPage() {
         const userData = snap.exists() ? ((snap.data() as any) ?? {}) : {}
         const badgeList = Array.isArray(userData?.badges) ? userData.badges.filter((x: any) => typeof x === "string") : []
         setBadges(badgeList)
+        setTrialProfile(userData)
       } catch {
         // ignore
       }
@@ -461,6 +465,8 @@ const totalBadgeCount = useMemo(() => getTotalBadgeCount(), [badges])
         </header>
 
         {error ? <div style={S.alert}>{error}</div> : null}
+
+        {trialProfile ? <TrialStatusCard profile={trialProfile} showPlansLink /> : null}
 
         {/* 🏆 アタック戦績（縦並び） */}
         <section style={S.card}>

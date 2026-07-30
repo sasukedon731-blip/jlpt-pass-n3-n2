@@ -10,6 +10,7 @@ import BillingStatusCard from "@/app/components/billing/BillingStatusCard"
 import CheckoutResultNotice from "@/app/components/billing/CheckoutResultNotice"
 import KonbiniGuideNotice from "@/app/components/billing/KonbiniGuideNotice"
 import PendingPaymentNotice from "@/app/components/billing/PendingPaymentNotice"
+import TrialStatusCard, { type TrialProfile } from "@/app/components/billing/TrialStatusCard"
 import LegalFooter from "@/app/components/LegalFooter"
 import { db } from "@/app/lib/firebase"
 import type { BillingLike } from "@/app/lib/billingAccess"
@@ -31,6 +32,7 @@ export default function PlansPage() {
   const [aiAddon, setAiAddon] = useState(false)
   const [checkoutStatus, setCheckoutStatus] = useState<string | null>(null)
   const [billing, setBilling] = useState<BillingLike | null>(null)
+  const [trialProfile, setTrialProfile] = useState<TrialProfile | null>(null)
   const [billingLoading, setBillingLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
@@ -53,6 +55,7 @@ export default function PlansPage() {
       if (loading) return
       if (!user?.uid) {
         setBilling(null)
+        setTrialProfile(null)
         setBillingLoading(false)
         return
       }
@@ -62,7 +65,10 @@ export default function PlansPage() {
         const snap = await getDoc(doc(db, "users", user.uid))
         const data = snap.exists() ? snap.data() : null
         const nextBilling = data?.billing && typeof data.billing === "object" ? (data.billing as BillingLike) : null
-        if (!cancelled) setBilling(nextBilling)
+        if (!cancelled) {
+          setBilling(nextBilling)
+          setTrialProfile(data as TrialProfile | null)
+        }
       } catch (e) {
         console.error(e)
         if (!cancelled) setBilling(null)
@@ -123,6 +129,8 @@ export default function PlansPage() {
               </div>
             </section>
           ) : null}
+
+          {!billingLoading && trialProfile ? <TrialStatusCard profile={trialProfile} /> : null}
 
           {!billingLoading && isPendingPayment ? (
             <>
