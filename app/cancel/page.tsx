@@ -14,7 +14,7 @@ export default function CancelPage() {
       lead="本サービスは、月額サブスクリプションではなく期間利用型の買い切りプランです。"
     >
       <p style={legalStyles.lead}>
-        JLPT PASS N3・N2 Japanese Study Appは、30日・90日・180日から利用期間を選択して購入する期間利用型サービスです。原則として自動更新はありません。
+        JLPT PASS N3・N2は、30日・90日・180日から利用期間を選択して購入する期間利用型サービスです。原則として自動更新はありません。
       </p>
 
       <div style={legalStyles.note}>

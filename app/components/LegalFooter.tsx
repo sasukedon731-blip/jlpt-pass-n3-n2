@@ -20,7 +20,7 @@ export default function LegalFooter({ compact = false }: Props) {
         <FooterLink href="/contact">お問い合わせ</FooterLink>
       </nav>
       <p style={{ marginTop: 12, fontSize: 12, lineHeight: 1.75, color: "rgba(17,24,39,.68)" }}>
-        本サービスは JLPT PASS N3・N2 Japanese Study App です。一般ユーザーは1日無料体験、企業コードユーザーは企業契約扱いで利用できます。カード情報は当アプリでは保持せず、KOMOJU Checkout上で処理されます。
+        本サービスは JLPT PASS N3・N2 です。一般ユーザーは1日無料体験、企業コードユーザーは企業契約扱いで利用できます。カード情報は当アプリでは保持せず、外部の決済サービス上で処理されます。
       </p>
     </footer>
   )

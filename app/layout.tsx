@@ -2,7 +2,7 @@ import "./globals.css"
 import type { Metadata, Viewport } from "next"
 
 export const metadata: Metadata = {
-  title: "JLPT PASS N3・N2 | Japanese Study App",
+  title: "JLPT PASS N3・N2",
   description:
     "JLPT N3・N2 learning app with games, AI conversation, and AI speaking practice.",
   manifest: "/manifest.json",

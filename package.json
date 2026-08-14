@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:komoju": "tsx --test tests/komoju-company-account.test.ts",
+    "test:komoju": "tsx --test tests/komoju-company-account.test.ts tests/checkout-pricing.test.ts",
     "test:firestore-rules": "firebase emulators:exec --only firestore --project demo-jlpt-pass-n3-n2 \"node --test tests/firestore.rules.test.mjs\""
   },
   "dependencies": {

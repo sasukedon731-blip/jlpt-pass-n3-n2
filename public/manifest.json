@@ -1,7 +1,7 @@
 {
-  "name": "JLPT PASS N3・N2 Japanese Study App",
+  "name": "JLPT PASS N3・N2",
   "short_name": "N3・N2",
-  "description": "JLPT N3・N2 Japanese Study App",
+  "description": "JLPT N3・N2の学習アプリ",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

@@ -10,7 +10,7 @@ export default function ContactPage() {
   return (
     <LegalPage
       title="お問い合わせ"
-      lead="JLPT PASS N3・N2 Japanese Study Appに関するお問い合わせ窓口です。"
+      lead="JLPT PASS N3・N2に関するお問い合わせ窓口です。"
     >
       <p style={legalStyles.lead}>
         アカウント、決済、コンビニ支払い、企業コード、AI会話・AIスピーキング、学習機能、返金確認等については、以下の窓口までご連絡ください。
@@ -27,7 +27,7 @@ export default function ContactPage() {
         <ul style={legalStyles.ul}>
           <li>登録メールアドレス</li>
           <li>お問い合わせ内容（アカウント、決済、企業コード、AI機能、学習機能など）</li>
-          <li>決済に関するお問い合わせの場合は、購入日時、購入プラン、KOMOJUの決済番号または支払情報</li>
+          <li>決済に関するお問い合わせの場合は、購入日時、購入プラン、決済番号または支払情報</li>
           <li>不具合に関するお問い合わせの場合は、利用端末、ブラウザ、発生日時、表示されたエラー内容</li>
         </ul>
       </LegalSection>

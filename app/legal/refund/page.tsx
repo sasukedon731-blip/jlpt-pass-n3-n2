@@ -13,7 +13,7 @@ export default function RefundPage() {
       lead="決済完了後の返金・キャンセルに関する方針です。"
     >
       <p style={legalStyles.lead}>
-        JLPT PASS N3・N2 Japanese Study Appは、オンラインで提供されるデジタル学習サービスです。サービスの性質上、決済完了後のお客様都合による返金、返品、キャンセルは原則としてお受けしておりません。
+        JLPT PASS N3・N2は、オンラインで提供されるデジタル学習サービスです。サービスの性質上、決済完了後のお客様都合による返金、返品、キャンセルは原則としてお受けしておりません。
       </p>
 
       <LegalSection title="1. 原則として返金できない場合">
@@ -38,7 +38,7 @@ export default function RefundPage() {
       </LegalSection>
 
       <LegalSection title="3. コンビニ決済について">
-        <p style={legalStyles.p}>コンビニ決済は、KOMOJUの案内に従って支払いを行う方式です。入金前のキャンセルや支払期限切れについては、KOMOJUの画面または通知をご確認ください。入金確認後に利用権限が反映されます。</p>
+        <p style={legalStyles.p}>コンビニ決済は、外部決済サービスの案内に従って支払いを行う方式です。入金前のキャンセルや支払期限切れについては、決済画面または通知をご確認ください。入金確認後に利用権限が反映されます。</p>
       </LegalSection>
 
       <LegalSection title="4. 自動更新・解約について">
@@ -51,7 +51,7 @@ export default function RefundPage() {
           <li>登録メールアドレス</li>
           <li>購入日時</li>
           <li>購入プラン</li>
-          <li>KOMOJUの決済番号または支払情報</li>
+          <li>決済番号または支払情報</li>
           <li>返金確認を希望する理由</li>
         </ul>
       </LegalSection>

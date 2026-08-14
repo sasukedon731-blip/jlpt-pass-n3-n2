@@ -24,7 +24,7 @@ export default function HomePage() {
               JLPT PASS N3・N2
             </div>
             <h1 style={{ fontSize: "clamp(34px,6vw,64px)", lineHeight: 1.05, margin: "18px 0 12px", letterSpacing: "-.04em" }}>
-              Japanese Study App
+              JLPT PASS N3・N2
             </h1>
             <p style={{ fontSize: 17, lineHeight: 1.9, color: "#475569", maxWidth: 640 }}>
               N3・N2学習、N5〜N2の復習ゲーム、AI会話、AIスピーキングをひとつにまとめた学習アプリです。個人は1日無料体験、企業コード登録ユーザーは支払い不要で利用できます。

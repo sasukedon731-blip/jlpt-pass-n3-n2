@@ -1,4 +1,4 @@
-# JLPT PASS N3・N2 Japanese Study App
+# JLPT PASS N3・N2
 
 N3・N2教材、ゲーム、AI会話、AIスピーク、マイページ、企業コード登録、企業管理画面、PWA、KOMOJU決済、法定ページを入れた販売用アプリです。
 
@@ -48,7 +48,7 @@ OPENAI_API_KEY=
 
 - Checkout API: `/api/komoju/checkout`
 - Webhook: `/api/komoju/webhook`
-- アプリ名表示: `JLPT PASS N3・N2 Japanese Study App`
+- アプリ名表示: `JLPT PASS N3・N2`
 
 ## 法定ページ
 

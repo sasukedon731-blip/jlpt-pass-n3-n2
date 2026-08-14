@@ -10,14 +10,14 @@ export default function TokushohoPage() {
   return (
     <LegalPage
       title="特定商取引法に基づく表記"
-      lead="JLPT PASS N3・N2 Japanese Study Appの販売条件・提供条件を表示しています。"
+      lead="JLPT PASS N3・N2の販売条件・提供条件を表示しています。"
     >
       <LegalRow label="販売事業者">株式会社アウトインプラス</LegalRow>
       <LegalRow label="運営責任者">高野 倫之</LegalRow>
       <LegalRow label="所在地">東京都渋谷区道玄坂1-10-8 渋谷道玄坂東急ビル2F-C</LegalRow>
       <LegalRow label="電話番号">03-6820-3675</LegalRow>
       <LegalRow label="メールアドレス">support@outin-plus.com</LegalRow>
-      <LegalRow label="サービス名">JLPT PASS N3・N2 Japanese Study App</LegalRow>
+      <LegalRow label="サービス名">JLPT PASS N3・N2</LegalRow>
       <LegalRow label="サービス内容">
         日本語能力試験N3・N2レベルの学習教材、確認テスト、復習ゲーム、マイページ、AI会話、AIスピーキング、企業コードログイン機能を提供するオンライン学習サービスです。
       </LegalRow>
@@ -27,9 +27,9 @@ export default function TokushohoPage() {
       <LegalRow label="販売価格以外の必要料金">
         インターネット接続に必要な通信料、パケット通信料、端末利用に伴う費用はお客様のご負担となります。コンビニ決済に手数料が発生する場合は、決済画面に表示されます。
       </LegalRow>
-      <LegalRow label="支払方法">KOMOJU Checkoutによるクレジットカード決済・コンビニ決済</LegalRow>
+      <LegalRow label="支払方法">外部決済サービスによるクレジットカード決済・コンビニ決済</LegalRow>
       <LegalRow label="支払時期">
-        クレジットカード決済は購入手続き時に決済されます。コンビニ決済は購入手続き後、KOMOJUの画面または通知に表示される支払期限までにお支払いください。
+        クレジットカード決済は購入手続き時に決済されます。コンビニ決済は購入手続き後、決済画面または通知に表示される支払期限までにお支払いください。
       </LegalRow>
       <LegalRow label="サービス提供時期">
         クレジットカード決済は決済完了後、コンビニ決済は入金確認後、通常速やかに利用権限が反映されます。通信状況または外部決済サービスの処理状況により、反映まで時間を要する場合があります。

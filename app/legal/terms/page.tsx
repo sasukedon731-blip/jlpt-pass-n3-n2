@@ -8,10 +8,10 @@ export default function TermsPage() {
   return (
     <LegalPage
       title="利用規約"
-      lead="本規約は、JLPT PASS N3・N2 Japanese Study Appの利用条件を定めるものです。"
+      lead="本規約は、JLPT PASS N3・N2の利用条件を定めるものです。"
     >
       <p style={legalStyles.lead}>
-        本規約は、株式会社アウトインプラス（以下「当社」といいます。）が提供する「JLPT PASS N3・N2 Japanese Study App」（以下「本サービス」といいます。）の利用条件を定めるものです。ユーザーは、本サービスを利用することにより、本規約に同意したものとみなされます。
+        本規約は、株式会社アウトインプラス（以下「当社」といいます。）が提供する「JLPT PASS N3・N2」（以下「本サービス」といいます。）の利用条件を定めるものです。ユーザーは、本サービスを利用することにより、本規約に同意したものとみなされます。
       </p>
 
       <LegalSection title="第1条（本サービスの内容）">
@@ -35,8 +35,8 @@ export default function TermsPage() {
       </LegalSection>
 
       <LegalSection title="第4条（決済）">
-        <p style={legalStyles.p}>本サービスの決済はKOMOJU Checkoutを利用し、クレジットカード決済およびコンビニ決済に対応します。カード情報は当社のサーバーでは保持しません。</p>
-        <p style={legalStyles.p}>コンビニ決済の場合、入金確認後に利用権限が反映されます。支払期限、支払方法、支払番号等はKOMOJUの画面または通知に従ってください。</p>
+        <p style={legalStyles.p}>本サービスの決済は外部決済サービスを利用し、クレジットカード決済およびコンビニ決済に対応します。カード情報は当社のサーバーでは保持しません。</p>
+        <p style={legalStyles.p}>コンビニ決済の場合、入金確認後に利用権限が反映されます。支払期限、支払方法、支払番号等は決済画面または通知に従ってください。</p>
       </LegalSection>
 
       <LegalSection title="第5条（禁止事項）">

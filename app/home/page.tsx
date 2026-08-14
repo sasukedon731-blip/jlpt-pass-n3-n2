@@ -32,7 +32,7 @@ export default function AppHomePage() {
       <section style={{ maxWidth: 980, margin: "0 auto", padding: 20 }}>
         <div style={{ textAlign: "center", padding: "26px 0 18px" }}>
           <div style={{ display: "inline-flex", padding: "8px 12px", borderRadius: 999, background: "#dbeafe", color: "#1d4ed8", fontWeight: 900, fontSize: 13 }}>JLPT PASS N3・N2</div>
-          <h1 style={{ margin: "14px 0 8px", fontSize: "clamp(30px,5vw,48px)", letterSpacing: "-.03em" }}>Japanese Study App</h1>
+          <h1 style={{ margin: "14px 0 8px", fontSize: "clamp(30px,5vw,48px)", letterSpacing: "-.03em" }}>JLPT PASS N3・N2</h1>
           <p style={{ margin: 0, color: "#64748b" }}>{user.displayName || user.email} さん、今日も一歩進めよう。</p>
         </div>
 

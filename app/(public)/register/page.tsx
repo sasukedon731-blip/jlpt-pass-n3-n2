@@ -97,7 +97,7 @@ export default function RegisterPage() {
         <div style={{ textAlign: "center", marginBottom: 22 }}>
           <div style={{ fontSize: 13, fontWeight: 900, color: "#2563eb" }}>JLPT PASS N3・N2</div>
           <h1 style={{ margin: "6px 0" }}>新規登録</h1>
-          <p style={{ margin: 0, color: "#64748b", fontSize: 13 }}>Japanese Study App</p>
+          <p style={{ margin: 0, color: "#64748b", fontSize: 13 }}>JLPT PASS N3・N2</p>
         </div>
 
         <Input placeholder="ユーザーネーム" value={username} onChange={setUsername} />

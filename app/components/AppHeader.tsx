@@ -42,7 +42,7 @@ export default function AppHeader({ title }: Props) {
             <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.15 }}>
               <span className="appHeaderName">JLPT PASS N3・N2</span>
               <span style={{ fontSize: "0.9rem", color: "#64748b", fontWeight: 600 }}>
-                Japanese Study App
+                JLPT PASS N3・N2
               </span>
             </span>
           </Link>

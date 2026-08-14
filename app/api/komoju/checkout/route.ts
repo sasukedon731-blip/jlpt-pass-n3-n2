@@ -2,28 +2,25 @@ import { NextRequest, NextResponse } from "next/server"
 import { adminAuth, adminDb } from "@/app/lib/firebaseAdmin"
 import { Timestamp } from "firebase-admin/firestore"
 import { isCompanyAccount } from "@/app/lib/companyAccount"
+import { parseCheckoutSelection } from "@/app/lib/checkoutPricing"
 
 export const runtime = "nodejs"
 
 const BASE_PRICE_YEN = 500
 const AI_ADDON_PRICE_YEN = 500
-const ALLOWED_MONTHS = [1, 3, 6] as const
-
-type AllowedMonth = (typeof ALLOWED_MONTHS)[number]
-
-function normalizeMonths(value: unknown): AllowedMonth {
-  const n = Number(value)
-  return ALLOWED_MONTHS.includes(n as AllowedMonth) ? (n as AllowedMonth) : 1
-}
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
     const idToken = body?.idToken
     const method = body?.method === "konbini" ? "konbini" : "credit_card"
-    const months = normalizeMonths(body?.months)
-    const aiAddon = body?.aiAddon === true
-    const amount = (BASE_PRICE_YEN + (aiAddon ? AI_ADDON_PRICE_YEN : 0)) * months
+    const selection = parseCheckoutSelection(body)
+
+    if (!selection) {
+      return NextResponse.json({ error: "プランまたは利用期間が正しくありません" }, { status: 400 })
+    }
+
+    const { plan, months, aiAddon, amount } = selection
 
     if (!idToken) return NextResponse.json({ error: "ログイン情報がありません" }, { status: 401 })
 
@@ -44,7 +41,7 @@ export async function POST(req: NextRequest) {
 
     const origin = req.nextUrl.origin
     const secret = process.env.KOMOJU_SECRET_KEY
-    if (!secret) return NextResponse.json({ error: "KOMOJU_SECRET_KEY が未設定です" }, { status: 500 })
+    if (!secret) return NextResponse.json({ error: "決済設定を確認できませんでした" }, { status: 500 })
 
     const lineItems = [
       {
@@ -72,7 +69,7 @@ export async function POST(req: NextRequest) {
       metadata: {
         uid,
         app: "JLPT PASS N3・N2",
-        plan: "paid",
+        plan,
         months: String(months),
         aiAddon: aiAddon ? "true" : "false",
       },
@@ -91,7 +88,7 @@ export async function POST(req: NextRequest) {
     const data = await res.json()
     if (!res.ok) {
       console.error("KOMOJU checkout error", data)
-      return NextResponse.json({ error: "KOMOJU決済ページの作成に失敗しました" }, { status: 500 })
+      return NextResponse.json({ error: "決済ページの作成に失敗しました" }, { status: 500 })
     }
 
     await userRef.set({

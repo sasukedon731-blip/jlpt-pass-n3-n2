@@ -97,7 +97,12 @@ export default function PlansPage() {
       const res = await fetch("/api/komoju/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idToken, method, months, aiAddon }),
+        body: JSON.stringify({
+          idToken,
+          method,
+          plan: aiAddon ? "standard_ai" : "standard",
+          months,
+        }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data?.error ?? "決済開始に失敗しました")
