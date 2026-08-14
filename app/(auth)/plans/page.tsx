@@ -101,7 +101,7 @@ export default function PlansPage() {
           idToken,
           method,
           plan: aiAddon ? "standard_ai" : "standard",
-          months,
+          days: months * 30,
         }),
       })
       const data = await res.json()
