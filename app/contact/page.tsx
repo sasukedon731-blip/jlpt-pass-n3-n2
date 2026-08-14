@@ -18,7 +18,7 @@ export default function ContactPage() {
 
       <LegalSection title="お問い合わせ先">
         <p style={legalStyles.p}><b>運営会社：</b>株式会社アウトインプラス</p>
-        <p style={legalStyles.p}><b>メール：</b><a href="mailto:support@outin-plus.com" style={{ color: "#2563eb", fontWeight: 900 }}>support@outin-plus.com</a></p>
+        <p style={legalStyles.p}><b>メール：</b><a href="mailto:support@outin-plus.com?subject=JLPT%20PASS%20N3%E3%83%BBN2%E3%81%AE%E3%81%8A%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B" style={{ color: "#2563eb", fontWeight: 900 }}>support@outin-plus.com</a></p>
         <p style={legalStyles.p}><b>電話：</b>03-6820-3675</p>
         <p style={legalStyles.p}><b>所在地：</b>東京都渋谷区道玄坂1-10-8 渋谷道玄坂東急ビル2F-C</p>
       </LegalSection>
